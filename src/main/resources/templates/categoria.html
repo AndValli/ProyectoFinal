@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:insert="librerias::librerias">head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	  
+	<title>Usuario</title>
+
+
+
+</head>
+
+<body id="page-top">
+	<!-- top -->
+	<!-- top -->
+	<!-- top -->
+	<div th:insert="top::top"></div>
+	<div class="container">
+
+		<!-- top -->
+		<!-- top -->
+
+		<div class="m-5">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="/">
+							<i class="fas fa-home fa-sm fa-fw mr-3 text-gray-600"></i>
+						</a>
+					</li>
+					<li class="breadcrumb-item"><a href="/usuarios">Usuarios</a></li>
+					<li class="breadcrumb-item active" aria-current="page">usuario</li>
+				</ol>
+			</nav>
+		</div>
+
+
+		<!-- Header -->
+		<header class="masthead">
+
+
+			<div class="row pl-5 pr-5">
+				<div class="col-9">
+
+					<h5>Ficha de categoria</h5>
+					<div class="card border border-primary">
+						<form action="#" th:action="@{/categorias/edit/{id}(id=${categoriaMostrar.id})}" th:object="${categoriaMostrar}" method="post">
+						<div class="card-body row pt-4 pb-4">
+							<div class="col-7">
+								<div class="card">
+									<div class="card-header text-dark bg-light">categoria</div>
+									<div class="card-body">
+										<div class="mb-2">
+											<label for="texto">Seleccionar usuario</label>
+											<select th:field="*{usuario.id}" class="form-control" id="exampleFormControlSelect1">
+											<option th:selected="selected" th:each="usuario:${listaUsuarios}" th:value="${usuario.id}"
+											th:text="${usuario.nombre}" value="">Seleccionar usuario</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-5">
+								<div class="card">
+									<div class="card-header text-dark bg-light">Categorias que ha hecho este usuario</div>
+									<div class="card-body">
+										<label for="texto">Seleccionar enlaces</label>
+										<select th:field="*{enlaces}" multiple="true" class="form-control selectpicker"
+										name="enlaces" id="enlaces">
+										<option th:selected="selected" th:each="b:${listaEnlaces}" th:value="${b.id}" th:text="${b.nombre}"
+										value="">Seleccionar enlaces</option>
+								</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<p><a th:href="@{/categorias}" class="btn btn-primary m-3">Cerrar</a></p>
+						<input type="submit" value="Guardar Categoria" class="btn btn-primary m-3"/>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</header>
+	</div>
+</body>
+
+
+</html>
