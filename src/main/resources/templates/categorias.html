@@ -5,124 +5,133 @@
 </head>
 
 <body>
-<div class="container">
-	<header>
-		<!--menu de arriba, th:Thymeleaf, plantilla html.-->
-		<div th:insert="top::top"></div>
+	<div class="container">
+		<header>
+			<!--menu de arriba, th:Thymeleaf, plantilla html.-->
+			<div th:insert="top::top"></div>
 
-	</header>
-	<h1>Pedidos en Spring</h1>
+		</header>
+		//<h1>Pedidos en Spring</h1>
 
-	<!-- imprimir tabla categorias-->
+		<!-- imprimir tabla categorias-->
 
-	<table class="table table-hover">
-		<!--hover(remarca)-->
-		<thead class="table-dark bg-info text-white">
-			<!--bg-info(letra de la tabla...)-->
-			<tr>
-				<!--cabeceras-->
-				<th>Id</th>
-				<th>Nombre</th>
-				<th>Enlaces</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-			<!--empty tengo o no categorias-->
-			<!--th:if: si mis categorias tiene o no tiene categorias, sino imprime NO HAY ALUMNOS-->
-			<!--acceder a un objeto q hemos definido en el controlador ($ nombre del attr del modelo.empty(true(crea el tr)/false(no crea el tr)))-->
-			<tr th:if="${listaCategorias.Empty}">
-				<td colspan="2"> No hay categorias </td>
-			</tr>
-			<!--th:each=cada pedido q este en mi variable ListaPedidos(controlador) llamale pedido-->
-			<tr th:each="pedido:${listaCategorias}">
-				<!--celda-->
-				<td>
-					<!--enlace=yo hago click ID pedido me mande al controlador /categorias/id-->
-					<!--@: permite decirle que parte de nuestro pedido.controller va recibir esa peticion, de ese click-->
-					<!--$:acceder a una variable dentro de th. id= attr id de objeto pedido-->
-					<a th:href="@{/categorias/{id}(id=${categoria.id})}" class="btn btn-primary btn-sm">
-						<!--imprimir el id, con etiqueta span. id del pedido(${pedido.id}-->
-						<span th:text="${categoria.id}"></span>
-					</a>
+		<table class="table table-hover">
+			<!--hover(remarca)-->
+			<thead class="table-dark bg-info text-white">
+				<!--bg-info(letra de la tabla...)-->
+				<tr>
+					<!--cabeceras-->
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Enlaces</th>
 
-				</td>
-				<td>
-					<!--imprimir el id, con etiqueta span. acceder nombre del usuario(${usuario.nombre}-->
-					<span th:text="${categoria.getUsuario.getNombre}"></span>
-				</td>
-				<td>
-					<span th:each="enlace:${categoria.enlaces}">
-						<span th:text="${enlace.getNombre}">Enlace
-							<span>, </span>
+				</tr>
+			</thead>
+			<tbody>
+				<!--empty tengo o no categorias-->
+				<!--th:if: si mis categorias tiene o no tiene categorias, sino imprime NO HAY ALUMNOS-->
+				<!--acceder a un objeto q hemos definido en el controlador ($ nombre del attr del modelo.empty(true(crea el tr)/false(no crea el tr)))-->
+				<tr th:if="${listaCategorias.Empty}">
+					<td colspan="2"> No hay categorias </td>
+				</tr>
+				<!--th:each=cada pedido q este en mi variable ListaPedidos(controlador) llamale pedido-->
+				<tr th:each="pedido:${listaCategorias}">
+					<!--celda-->
+					<td>
+						<!--enlace=yo hago click ID pedido me mande al controlador /categorias/id-->
+						<!--@: permite decirle que parte de nuestro pedido.controller va recibir esa peticion, de ese click-->
+						<!--$:acceder a una variable dentro de th. id= attr id de objeto pedido-->
+						<a th:href="@{/categorias/{id}(id=${categoria.id})}" class="btn btn-primary btn-sm">
+							<!--imprimir el id, con etiqueta span. id del pedido(${pedido.id}-->
+							<span th:text="${categoria.id}"></span>
+						</a>
+
+					</td>
+					<td>
+						<!--imprimir el id, con etiqueta span. acceder nombre del usuario(${usuario.nombre}-->
+						<span th:text="${categoria.getUsuario.getNombre}"></span>
+					</td>
+					<td>
+						<span th:each="enlace:${categoria.enlaces}">
+							<span th:text="${enlace.getNombre}">Enlace
+								<span>, </span>
+							</span>
 						</span>
-					</span>
-				</td>
-				
-
-			</tr>
-		</tbody>
-	</table>
-
-	<div class="col-2 float-right">
-		<div class="p-5">
-			<!--primary boton azul-->
-			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#crearMensaje">
-				+ </button>
-		</div>
-	</div>
+					</td>
 
 
-	<!--create modal-->
-	<div class="modal fade" id="crearMensaje">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+				</tr>
+			</tbody>
+		</table>
 
 
-				<div class="modal-header">
-					<h4 class="modal-title" id="exampleModalLabel">Crear Categoria</h4>
-					<button class="close btn btn-danger" type="button" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">x</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p class="error-text">crear categoria nueva:</p>
 
 
-					<form action="#" th:action="@{/categorias/add/}" th:object="${categoriaNuevo}" method="post">
-						<div class="form-row">
-							<div class="form-group mt-1">
-								<label for="texto">Seleccionar usuario</label>
-								<select th:field="*{usuario.id}" class="form-control" id="exampleFormControlSelect1">
-									<option th:each="usuario:${listaUsuarios}" th:value="${usuario.id}"
-										th:text="${usuario.nombre}" value="">Seleccionar usuario</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="form-group mt-4">
-								<label for="texto">Seleccionar enlaces</label>
-								<select th:field="*{enlaces}" multiple="true" class="form-control selectpicker"
-									name="enlaces" id="enlaces">
-									<option th:each="b:${listaEnlaces}" th:value="${b.id}" th:text="${b.nombre}"
-										value="">Seleccionar enlaces</option>
-								</select>
-							</div>
-						</div>
-
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-					<input type="submit" value="Crear categoria" class="btn btn-primary float-right" />
-
-
-				</div>
-				</form>
+		<div class="col-2 float-right">
+			<div class="p-5">
+				<!--primary boton azul-->
+				<button type="button" class="btn btn-primary float-right" data-toggle="modal"
+					data-target="#crearMensaje">
+					+ </button>
 			</div>
 		</div>
+
+
+
+
+		<!--CREATE MODAL-->
+		<div class="modal fade" id="crearMensaje">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+
+
+					<div class="modal-header">
+						<h4 class="modal-title" id="exampleModalLabel">Crear Enlace</h4>
+						<button class="close btn btn-danger" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">x</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p class="error-text">crear enlace nuevo:</p>
+
+
+						<form action="#" th:action="@{/addEnlaces/{id}(id=${categoria.id})}" th:object="${enlaceNuevo}"
+							method="post">
+							<div class="form-row">
+								<div class="form-group mt-1">
+									<label for="texto">Escribe enlace</label>
+									<label for="texto"></label>
+									<!--<select th:field="*{url.id}" class="form-control" id="exampleFormControlSelect1">
+									<option th:each="usuario:${listaUsuarios}" th:value="${usuario.id}"
+										th:text="${usuario.nombre}" value="">Seleccionar usuario</option>
+								</select>-->
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group mt-4">
+									<label for="texto">Seleccionar enlaces</label>
+									<select th:field="*{enlaces}" multiple="true" class="form-control selectpicker"
+										name="enlaces" id="enlaces">
+										<option th:each="b:${listaEnlaces}" th:value="${b.id}" th:text="${b.nombre}"
+											value="">Seleccionar enlaces</option>
+									</select>
+								</div>
+							</div>
+
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-hidden="true">+</button>
+						<input type="submit" value="Crear categoria" class="btn btn-primary float-right" />
+
+
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!--fin create modal-->
 	</div>
-	
-	<!--fin create modal-->
-</div>
-	</body>
+</body>
+
 </html>

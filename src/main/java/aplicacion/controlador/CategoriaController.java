@@ -22,7 +22,7 @@ import aplicacion.persistencia.EnlaceRepo;
 import aplicacion.persistencia.CategoriaDAO;
 import aplicacion.persistencia.CategoriaRepo;
 
-@RequestMapping("/categorias")
+@RequestMapping("/")
 @Controller
 public class CategoriaController {
 
@@ -45,52 +45,50 @@ public class CategoriaController {
         ArrayList<Enlace> misEnlaces= (ArrayList<Enlace>) enlaceRepo.findAll();
        
         model.addAttribute("listaCategorias", miscategorias);
-        model.addAttribute("listaUsuarios", misUsuarios);
-        model.addAttribute("listaEnlaces", misEnlaces);
+       // model.addAttribute("listaUsuarios", misUsuarios);
+       // model.addAttribute("listaEnlaces", misEnlaces);
         
-		model.addAttribute("categoriaNuevo", new Categoria());
+        model.addAttribute("categoriaNueva", new Categoria());
+        model.addAttribute("enlaceNuevo", new Enlace());
 		
 
-		return "categorias";
+		return "index";
+		
 	}
 
-	@PostMapping("/add")
-	public String addCategoria(@ModelAttribute("categoriaNuevo") Categoria categoriaNuevo, BindingResult bindingResult) {
+	@PostMapping("/addCategoria")
+	public String addCategoria(@ModelAttribute("categoriaNueva") Categoria categoriaNueva, BindingResult bindingResult) {
 
 	
 
 		//Alumno usuarioNuevo = crudAlumno.buscarPorIdJPA(categoriaNuevo.getAlumno().getId());
 
 		
-		Usuario usuarioNuevo = usuarioRepo.findById(categoriaNuevo.getUsuario().getId()).get();
+		//Usuario usuarioNuevo = usuarioRepo.findById(categoriaNueva.getUsuario().getId()).get();
 		
-		usuarioNuevo.getCategoria().add(categoriaNuevo);
-		categoriaNuevo.setUsuario(usuarioNuevo);
+		//usuarioNuevo.getCategoria().add(categoriaNueva);
+		//categoriaNueva.setUsuario(usuarioNuevo);
 
-		categoriaRepo.save(categoriaNuevo);
+		categoriaRepo.save(categoriaNueva);
+		
 
-		for (Enlace b : categoriaNuevo.getEnlaces()) {
-			b.getCategorias().add(categoriaNuevo);
-			//crudBocadillo.modificarBocadilloJPA(b);
-			enlaceRepo.save(b);
-		}
-
-		return "redirect:/categorias";
+		return "redirect:/";
 	}
 
-	@GetMapping({ "/{id}" })
-	String idCategoria(Model model, @PathVariable Integer id) {
-		ArrayList<Categoria> miscategorias=(ArrayList<Categoria>) categoriaRepo.findAll();
-        ArrayList<Usuario> misUsuarios= (ArrayList<Usuario>) usuarioRepo.findAll();
-        ArrayList<Enlace> misEnlaces= (ArrayList<Enlace>) enlaceRepo.findAll();
-       
-        model.addAttribute("listaCategorias", miscategorias);
-        model.addAttribute("listaUsuarios", misUsuarios);
-        model.addAttribute("listaEnlaces", misEnlaces);
-		Categoria categoriaMostrar = categoriaRepo.findById(id).get();
-		model.addAttribute("categoriaMostrar", categoriaMostrar);
-
-		return "categoria";
+	@PostMapping({ "addEnlace/{id}" })
+	String idCategoria(Model model,@ModelAttribute("enlaceNuevo") Enlace enlaceNuevo, @PathVariable Integer id) {
+		
+        
+		Categoria categoriaDelEnlace = categoriaRepo.findById(id).get();
+		
+		enlaceNuevo.setId(null);
+		enlaceNuevo.getCategorias().add(categoriaDelEnlace);
+		enlaceRepo.save(enlaceNuevo);
+		
+		categoriaDelEnlace.getEnlaces().add(enlaceNuevo);
+		categoriaRepo.save(categoriaDelEnlace);
+		
+		return "redirect:/";
 	}
 	
 	@PostMapping("/edit/{id}")

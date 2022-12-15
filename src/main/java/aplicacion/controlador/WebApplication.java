@@ -9,12 +9,7 @@ public class WebApplication {
 
 	  
 	
-	@GetMapping("/")
-	String home() {
-		 
-		return "index";
-			
-	}
+	
 	 
 	@GetMapping("/categorias")
 	String homecategoria() {

@@ -32,6 +32,8 @@ public class Enlace {
 	@Column(name="nombre")
 	private String nombre;
 	
+	@Column(name="url")
+	private String url;
 	
 	@ManyToMany(fetch =FetchType.EAGER)
     @JoinTable(
@@ -42,6 +44,22 @@ public class Enlace {
 	@JsonIgnore
 	private Set<Categoria> categorias;
 	
+	
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Enlace(Integer id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.url="";
+	}
 
 	public Enlace() {
 		categorias = new HashSet<Categoria>();
