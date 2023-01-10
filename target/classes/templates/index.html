@@ -33,7 +33,7 @@
 					Categorias: <span sec:authentication="principal.nombre" />
 				</h1>
 				<span th:if="${listaCategorias.Empty}"> Crea tu primera categoría </span>
-				<div th:each="categoria:${listaCategorias}"class="md-4">
+				<div th:each="categoria:${listaCategorias}" class="md-4">
 					<div class="col-md-4">
 						<div class="card mb-4 box-shadow">
 							<div class="card-body">
@@ -42,65 +42,90 @@
 								<div class="col-md-4">
 									<div class="card mb-4 box-shadow">
 										<div th:if="${!categoria.getEnlaces().Empty}" class="card-body">
-											<a target="_blank" th:each="enlace:${categoria.getEnlaces()}"  th:href="@{http://{url}(url=${enlace.getUrl()})}"><p class="card-text" th:text="${enlace.getNombre()}"><strong>Enlaces</strong></p>
+											<a target="_blank" th:each="enlace:${categoria.getEnlaces()}"
+												th:href="@{http://{url}(url=${enlace.getUrl()})}">
+												<p class="card-text" th:text="${enlace.getNombre()}">
+													<strong>Enlaces</strong></p>
 											</a>
-											
+
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
-												<div class="btn-group">
-													<a th:attr="data-target='#modal-enlacenuevo'+${categoria.id}" data-toggle="modal" data-target="#modal-edit" class="btn btn-primary btn-sm text-white pointer">
-															+
-													</a>
-												</div>
+											<div class="btn-group">
+												<a th:attr="data-target='#modal-enlacenuevo'+${categoria.id}"
+													data-toggle="modal" data-target="#modal-edit"
+													class="btn btn-primary btn-sm text-white pointer">
+													+
+												</a>
 											</div>
+										</div>
 									</div>
 								</div>
 
 							</div>
 						</div>
 					</div>
-				
-				
-				
-				<!--añadirmensaje modal-->
-				<div class="modal fade" th:id="modal-enlacenuevo+${categoria.id}">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" id="exampleModalLabel">Modificar</h4>
-							<button class="close btn btn-danger" type="button" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">x</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<!--formulario enlace a añadir-->
-							<form action="#" th:action="@{/addEnlace/{id}(id=${categoria.id})}" th:object="${enlaceNuevo}" method="post"> 
-								<div class"form-row">
-								<div class="form-group mt-1"> 
-									<label for="texto">Nombre Enlace</label>
-									<input type="text" th:field="*{nombre}" class="form-control" id="exampleInputEmail" placeholder="Nombre"/>
+
+
+
+					<!--añadirmensaje modal-->
+					<div class="modal fade" th:id="modal-enlacenuevo+${categoria.id}">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="exampleModalLabel">Modificar</h4>
+									<button class="close btn btn-danger" type="button" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">x</span>
+									</button>
 								</div>
-								<div class="form-group mt-1"> 
-									<label for="texto">URL Enlace</label>
-									<input type="text" th:field="*{url}" class="form-control" id="exampleInputEmail" placeholder="URL"/>
-								</div>
-								</div>
+								<div class="modal-body">
+									<!--formulario enlace a añadir-->
+									<form action="#" th:action="@{/addEnlace/{id}(id=${categoria.id})}"
+										th:object="${enlaceNuevo}" method="post">
+										<div class"form-row">
+											<div class="form-group mt-1">
+												<label for="texto">Nombre Enlace</label>
+												<input type="text" th:field="*{nombre}" class="form-control"
+													id="exampleInputEmail" placeholder="Nombre" />
+											</div>
+											<div class="form-group mt-1">
+												<label for="texto">URL Enlace</label>
+												<input type="text" th:field="*{url}" class="form-control"
+													id="exampleInputEmail" placeholder="URL" />
+											</div>
+										</div>
 								</div>
 								<div class="modal-footer">
-									<button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-									<input type="submit" value="Añadir Enlace" class="btn btn-primary float-right"/>
+									<button class="btn btn-secondary btn-sm" data-dismiss="modal"
+										aria-hidden="true">Cancelar</button>
+									<input type="submit" value="Añadir Enlace" class="btn btn-primary float-right" />
 								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- fin añadirmensaje modal-->
-				
-				
+					<!-- fin añadirmensaje modal-->
 
-				
+
+
+
+
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="btn-group">
+							<a th:attr="data-target='#modal-delete'+${categoria.id}" data-toggle="modal"
+								data-target="#modal-delete" class="btn btn-primary btn-sm text-white pointer">
+								x
+							</a>
+						</div>
+					</div>
+
+
+
+
+
+
 				</div>
-				
+
 				<div class="col-2 float-right">
 					<div class="p-5">
 						<button type="button" class="btn btn-primary float-right" data-toggle="modal"
@@ -112,35 +137,38 @@
 				<div class="modal fade" id="crearMensajeC">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" id="exampleModalLabel">Crear categoria</h4>
-							<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">x</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<p class="error-text">Introduce el nombre para nueva categoria:
-							<!--formulario nombre a editar-->
-							<form action="#" th:action="@{/addCategoria/}" th:object="${categoriaNueva}" method="post"> 
-								<div class"form-row">
-								<div class="form-group mt-1"> 
-									<label for="texto">Nombre</label>
-									<input type="text" th:field="*{nombre}" class="form-control" id="gheryhrt" placeholder="Categoria" />
-								</div>
-								</div>
-								</div>
-								<div class="modal-footer">
-									<button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-									<input type="submit" value="Añadir" class="btn btn-primary float-right"/>
-								</div>
+							<div class="modal-header">
+								<h4 class="modal-title" id="exampleModalLabel">Crear categoria</h4>
+								<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">x</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p class="error-text">Introduce el nombre para nueva categoria:
+									<!--formulario nombre a editar-->
+								<form action="#" th:action="@{/addCategoria/}" th:object="${categoriaNueva}"
+									method="post">
+									<div class"form-row">
+										<div class="form-group mt-1">
+											<label for="texto">Nombre</label>
+											<input type="text" th:field="*{nombre}" class="form-control" id="gheryhrt"
+												placeholder="Categoria" />
+										</div>
+									</div>
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-secondary btn-sm" data-dismiss="modal"
+									aria-hidden="true">Cancelar</button>
+								<input type="submit" value="Añadir" class="btn btn-primary float-right" />
+							</div>
 							</form>
 						</div>
 					</div>
 				</div>
 				<!-- fin create modal-->
-				
-				
-				
+
+
+
 
 	</main>
 	<footer class="text-muted">

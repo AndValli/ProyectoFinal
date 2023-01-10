@@ -1,6 +1,7 @@
 package aplicacion.controlador;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,9 +41,9 @@ public class CategoriaController {
 	@GetMapping(value = { "", "/" })
 	String usuarios(Model model) {
 		 	
-		ArrayList<Categoria> miscategorias=(ArrayList<Categoria>) categoriaRepo.findAll();
-        ArrayList<Usuario> misUsuarios= (ArrayList<Usuario>) usuarioRepo.findAll();
-        ArrayList<Enlace> misEnlaces= (ArrayList<Enlace>) enlaceRepo.findAll();
+		List<Categoria> miscategorias=categoriaRepo.findAll();
+        List<Usuario> misUsuarios= usuarioRepo.findAll();
+        List<Enlace> misEnlaces= enlaceRepo.findAll();
        
         model.addAttribute("listaCategorias", miscategorias);
        // model.addAttribute("listaUsuarios", misUsuarios);
@@ -114,13 +115,15 @@ public class CategoriaController {
 	public String obtenerCategoria(@PathVariable String nombre) {
 		return "categoria";
 	}
+	
+	
 
-	@GetMapping({ "/delete/{id}" })
+	@GetMapping({ "/deleteEnlace/{id}" })
 	String deleteCategoria(Model model, @PathVariable Integer id) {
 		
 		categoriaRepo.deleteById(id);
 
-		return "redirect:/categorias";
+		return "redirect:/";
 
 	}
 

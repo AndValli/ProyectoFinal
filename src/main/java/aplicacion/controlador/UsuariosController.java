@@ -3,6 +3,7 @@ package aplicacion.controlador;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,10 @@ import aplicacion.persistencia.UsuarioDAO;
 public class UsuariosController {
 	
 	UsuarioDAO usuarioDAO=new UsuarioDAO();
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@GetMapping(value={"","/"})
 	String homeusuarios(Model model) {
 		//Salir a buscar a la BBDD
@@ -49,6 +54,10 @@ public class UsuariosController {
 	}
 	@PostMapping("/add")
 	public String addUsuario(@ModelAttribute("usuarioNuevo") Usuario usuarioNew, BindingResult bidingresult) {
+		
+		String hashClave = passwordEncoder.encode(usuarioNew.getPassword());
+		usuarioNew.setPassword(hashClave);
+		
 		usuarioDAO.insertarUsuarioJPA(usuarioNew);
 		return "redirect:/usuarios";
 	}
